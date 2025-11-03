@@ -1,0 +1,211 @@
+[
+  {
+    "Id": 1,
+    "levelId": "1",
+    "subject": "math",
+    "type": "counting",
+    "question": "How many stars do you see?",
+    "image": "Star",
+    "description": "Count all the stars",
+    "options": [3, 5, 4, 6],
+    "correctAnswer": 4
+  },
+  {
+    "Id": 2,
+    "levelId": "1",
+    "subject": "math",
+    "type": "counting",
+    "question": "Count the hearts",
+    "image": "Heart",
+    "description": "How many hearts are there?",
+    "options": [2, 3, 4, 5],
+    "correctAnswer": 3
+  },
+  {
+    "Id": 3,
+    "levelId": "2",
+    "subject": "math",
+    "type": "addition",
+    "question": "2 + 3 = ?",
+    "image": "Plus",
+    "description": "Add these numbers together",
+    "options": [4, 5, 6, 7],
+    "correctAnswer": 5
+  },
+  {
+    "Id": 4,
+    "levelId": "2",
+    "subject": "math",
+    "type": "addition",
+    "question": "4 + 1 = ?",
+    "image": "Plus",
+    "description": "What do you get when you add these?",
+    "options": [3, 4, 5, 6],
+"correctAnswer": 5
+  },
+  {
+    "Id": 8,
+    "levelId": "3",
+    "subject": "math",
+    "type": "subtraction",
+    "question": "5 - 2 = ?",
+    "image": "Minus",
+    "description": "Take away to find the answer",
+    "options": [2, 3, 4, 1],
+    "correctAnswer": 3
+  },
+  {
+    "Id": 9,
+    "levelId": "3",
+    "subject": "math",
+    "type": "subtraction",
+    "question": "6 - 4 = ?",
+    "image": "Minus",
+    "description": "How many are left?",
+    "options": [1, 2, 3, 4],
+    "correctAnswer": 2
+  },
+  {
+    "Id": 10,
+    "levelId": "4",
+    "subject": "math",
+    "type": "addition",
+    "question": "7 + 5 = ?",
+    "image": "Plus",
+    "description": "Add these bigger numbers together",
+    "options": [11, 12, 13, 10],
+    "correctAnswer": 12
+  },
+  {
+    "Id": 11,
+    "levelId": "4",
+    "subject": "math",
+    "type": "addition",
+    "question": "8 + 3 = ?",
+    "image": "Plus",
+    "description": "What is the total?",
+    "options": [9, 10, 11, 12],
+    "correctAnswer": 11
+  },
+  {
+    "Id": 12,
+    "levelId": "5",
+    "subject": "math",
+    "type": "subtraction",
+    "question": "10 - 3 = ?",
+    "image": "Minus",
+    "description": "Subtract to find the answer",
+    "options": [6, 7, 8, 9],
+    "correctAnswer": 7
+  },
+  {
+    "Id": 13,
+    "levelId": "5",
+    "subject": "math",
+    "type": "subtraction",
+    "question": "9 - 4 = ?",
+    "image": "Minus",
+    "description": "How many remain?",
+    "options": [4, 5, 6, 7],
+    "correctAnswer": 5
+  },
+  {
+"Id": 14,
+    "levelId": "6",
+    "subject": "reading",
+    "type": "letters",
+    "question": "Which letter comes after 'B'?",
+    "image": "BookOpen",
+    "description": "Pick the next letter in the alphabet",
+    "options": ["A", "C", "D", "E"],
+    "correctAnswer": "C"
+  },
+{
+    "Id": 15,
+    "levelId": "6",
+    "subject": "reading",
+    "type": "letters",
+    "question": "What letter does 'Apple' start with?",
+    "image": "Apple",
+    "description": "Choose the first letter",
+    "options": ["A", "B", "C", "D"],
+    "correctAnswer": "A"
+  },
+{
+    "Id": 16,
+    "levelId": "7",
+    "subject": "reading",
+    "type": "phonics",
+    "question": "What sound does 'C' make in 'Cat'?",
+    "image": "Cat",
+    "description": "Choose the correct sound",
+"options": ["kuh", "sss", "tuh", "aaa"],
+    "correctAnswer": "kuh"
+  },
+  {
+    "Id": 17,
+    "levelId": "8",
+    "subject": "reading",
+    "type": "words",
+    "question": "Which word means 'a small animal that says meow'?",
+    "image": "Cat",
+    "description": "Choose the correct word",
+    "options": ["dog", "cat", "bird", "fish"],
+    "correctAnswer": "cat"
+  },
+  {
+    "Id": 18,
+    "levelId": "8",
+    "subject": "reading",
+    "type": "words",
+    "question": "What word describes something that is not big?",
+    "image": "Minimize",
+    "description": "Pick the word that means the opposite of big",
+    "options": ["large", "small", "huge", "giant"],
+    "correctAnswer": "small"
+  },
+  {
+    "Id": 19,
+    "levelId": "9",
+    "subject": "reading",
+    "type": "sentences",
+    "question": "Complete the sentence: 'The sun is ___'",
+    "image": "Sun",
+    "description": "Choose the word that best completes the sentence",
+    "options": ["cold", "bright", "dark", "wet"],
+    "correctAnswer": "bright"
+  },
+  {
+    "Id": 20,
+    "levelId": "9",
+    "subject": "reading",
+    "type": "sentences",
+    "question": "Which sentence is correct?",
+    "image": "CheckCircle",
+    "description": "Pick the sentence that makes sense",
+    "options": ["Birds can fly.", "Fish can walk.", "Cars can swim.", "Trees can run."],
+    "correctAnswer": "Birds can fly."
+  },
+  {
+    "Id": 21,
+    "levelId": "10",
+    "subject": "reading",
+    "type": "stories",
+    "question": "In the story 'The Three Bears', who ate the porridge?",
+    "image": "Book",
+    "description": "Think about the famous story",
+    "options": ["Goldilocks", "The Wolf", "Little Red", "Jack"],
+    "correctAnswer": "Goldilocks"
+  },
+  {
+    "Id": 22,
+    "levelId": "10",
+    "subject": "reading",
+    "type": "stories",
+    "question": "What happens at the beginning of most stories?",
+    "image": "BookOpen",
+    "description": "Think about how stories usually start",
+    "options": ["The end", "Once upon a time", "The middle", "Good bye"],
+    "correctAnswer": "Once upon a time"
+  }
+]

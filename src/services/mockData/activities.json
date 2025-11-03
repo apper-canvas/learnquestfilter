@@ -1,0 +1,52 @@
+[
+  {
+    "Id": 1,
+    "levelId": "1",
+    "childId": "1",
+    "starsEarned": 3,
+    "correctAnswers": 10,
+    "totalQuestions": 10,
+    "timeSpent": 180,
+    "completedAt": "2024-01-16T15:30:00Z"
+  },
+  {
+    "Id": 2,
+    "levelId": "2",
+    "childId": "1",
+    "starsEarned": 2,
+    "correctAnswers": 8,
+    "totalQuestions": 10,
+    "timeSpent": 240,
+    "completedAt": "2024-01-17T10:15:00Z"
+  },
+  {
+    "Id": 3,
+    "levelId": "3",
+    "childId": "1",
+    "starsEarned": 3,
+    "correctAnswers": 9,
+    "totalQuestions": 10,
+    "timeSpent": 200,
+    "completedAt": "2024-01-18T16:45:00Z"
+  },
+  {
+    "Id": 4,
+    "levelId": "6",
+    "childId": "1",
+    "starsEarned": 3,
+    "correctAnswers": 10,
+    "totalQuestions": 10,
+    "timeSpent": 160,
+    "completedAt": "2024-01-19T14:20:00Z"
+  },
+  {
+    "Id": 5,
+    "levelId": "7",
+    "childId": "1",
+    "starsEarned": 2,
+    "correctAnswers": 7,
+    "totalQuestions": 10,
+    "timeSpent": 280,
+    "completedAt": "2024-01-20T11:10:00Z"
+  }
+]

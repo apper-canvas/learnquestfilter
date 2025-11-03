@@ -1,0 +1,42 @@
+[
+  {
+    "childId": "1",
+    "subject": "math",
+    "skillArea": "counting",
+    "masteryLevel": 90,
+    "practiceCount": 5,
+    "lastPracticed": "2024-01-16T15:30:00Z"
+  },
+  {
+    "childId": "1",
+    "subject": "math",
+    "skillArea": "addition",
+    "masteryLevel": 75,
+    "practiceCount": 3,
+    "lastPracticed": "2024-01-17T10:15:00Z"
+  },
+  {
+    "childId": "1",
+    "subject": "math",
+    "skillArea": "subtraction",
+    "masteryLevel": 85,
+    "practiceCount": 4,
+    "lastPracticed": "2024-01-18T16:45:00Z"
+  },
+  {
+    "childId": "1",
+    "subject": "reading",
+    "skillArea": "letters",
+    "masteryLevel": 95,
+    "practiceCount": 6,
+    "lastPracticed": "2024-01-19T14:20:00Z"
+  },
+  {
+    "childId": "1",
+    "subject": "reading",
+    "skillArea": "phonics",
+    "masteryLevel": 70,
+    "practiceCount": 2,
+    "lastPracticed": "2024-01-20T11:10:00Z"
+  }
+]

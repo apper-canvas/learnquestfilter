@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "subject": "math",
+    "difficulty": "easy",
+    "type": "counting",
+    "orderIndex": 1,
+    "isLocked": false,
+    "requiredStars": 0
+  },
+  {
+    "Id": 2,
+    "subject": "math",
+    "difficulty": "easy",
+    "type": "addition",
+    "orderIndex": 2,
+    "isLocked": false,
+    "requiredStars": 3
+  },
+  {
+    "Id": 3,
+    "subject": "math",
+    "difficulty": "easy",
+    "type": "subtraction",
+    "orderIndex": 3,
+    "isLocked": false,
+    "requiredStars": 6
+  },
+  {
+    "Id": 4,
+    "subject": "math",
+    "difficulty": "medium",
+    "type": "addition",
+    "orderIndex": 4,
+    "isLocked": true,
+    "requiredStars": 9
+  },
+  {
+    "Id": 5,
+    "subject": "math",
+    "difficulty": "medium",
+    "type": "subtraction",
+    "orderIndex": 5,
+    "isLocked": true,
+    "requiredStars": 12
+  },
+  {
+    "Id": 6,
+    "subject": "reading",
+    "difficulty": "easy",
+    "type": "letters",
+    "orderIndex": 1,
+    "isLocked": false,
+    "requiredStars": 0
+  },
+  {
+    "Id": 7,
+    "subject": "reading",
+    "difficulty": "easy",
+    "type": "phonics",
+    "orderIndex": 2,
+    "isLocked": false,
+    "requiredStars": 3
+  },
+  {
+    "Id": 8,
+    "subject": "reading",
+    "difficulty": "easy",
+    "type": "words",
+    "orderIndex": 3,
+    "isLocked": false,
+    "requiredStars": 6
+  },
+  {
+    "Id": 9,
+    "subject": "reading",
+    "difficulty": "medium",
+    "type": "sentences",
+    "orderIndex": 4,
+    "isLocked": true,
+    "requiredStars": 9
+  },
+  {
+    "Id": 10,
+    "subject": "reading",
+    "difficulty": "medium",
+    "type": "stories",
+    "orderIndex": 5,
+    "isLocked": true,
+    "requiredStars": 12
+  }
+]

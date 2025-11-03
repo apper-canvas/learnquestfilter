@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "name": "Alex",
+    "age": 7,
+    "avatarId": "1",
+    "currentLevel": 5,
+    "totalStars": 47,
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Emma",
+    "age": 6,
+    "avatarId": "3",
+    "currentLevel": 8,
+    "totalStars": 62,
+    "createdAt": "2024-01-20T14:30:00Z"
+  }
+]
