@@ -143,4 +143,3 @@ class LevelsService {
 }
 
 export default new LevelsService();
-export default new LevelsService();

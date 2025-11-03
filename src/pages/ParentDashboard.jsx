@@ -260,10 +260,9 @@ const { strengths, weaknesses } = getStrengthsAndWeaknesses();
                         ? "bg-gradient-to-t from-primary to-primary/50" 
                         : "bg-gray-100"
                     }`}
-                  >
+>
                     {day.stars > 0 && (
                       <div className="text-center">
-<div className="text-center">
                         <div className="text-white font-display text-lg">{day.stars}</div>
                         <div className="text-white/80 text-xs">
                           {Math.round(day.timeSpent / 60)}m

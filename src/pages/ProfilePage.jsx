@@ -157,7 +157,7 @@ const totalStars = activities.reduce((sum, activity) => sum + activity.stars_ear
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-1 mb-1">
                   <ApperIcon name="TrendingUp" className="text-primary" size={20} />
-                  <span className="text-2xl font-display text-primary">{averageScore}%</span>
+<span className="text-2xl font-display text-primary">{averageAccuracy}%</span>
                 </div>
                 <p className="text-sm text-gray-600">Average Score</p>
               </div>
