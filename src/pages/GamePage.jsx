@@ -78,7 +78,7 @@ const GamePage = () => {
 
   const handleAnswer = (isCorrect, selectedAnswer) => {
     const newAnswer = {
-      questionId: questions[currentQuestionIndex].Id,
+questionId: questions[currentQuestionIndex].Id,
       isCorrect,
       selectedAnswer,
       timeSpent: 30 - timeLeft
@@ -116,30 +116,30 @@ const GamePage = () => {
       const currentChild = children[0];
       
       if (currentChild) {
-        await activitiesService.create({
-          levelId: levelId,
-          childId: currentChild.Id.toString(),
-          starsEarned: stars,
-          correctAnswers: correctCount,
-          totalQuestions: totalQuestions,
-          timeSpent: finalAnswers.reduce((sum, a) => sum + a.timeSpent, 0)
+await activitiesService.create({
+          level_id_c: levelId,
+          child_id_c: currentChild.Id.toString(),
+          stars_earned_c: stars,
+          correct_answers_c: correctCount,
+          total_questions_c: totalQuestions,
+          time_spent_c: finalAnswers.reduce((sum, a) => sum + a.timeSpent, 0)
         });
 
-        // Update progress
+        // Update progress tracking
         await progressService.updateProgress(
           currentChild.Id,
-          level.subject,
-          level.type,
+          level.subject_c,
+          level.type_c,
           Math.round(accuracy)
         );
 
-        // Update child's total stars and level
-        const newTotalStars = currentChild.totalStars + stars;
-        const newCurrentLevel = Math.max(currentChild.currentLevel, level.orderIndex);
+        // Update child's total stars and level progress
+        const newTotalStars = currentChild.total_stars_c + stars;
+        const newCurrentLevel = Math.max(currentChild.current_level_c, level.order_index_c);
         
         await childrenService.update(currentChild.Id, {
-          totalStars: newTotalStars,
-          currentLevel: newCurrentLevel
+          total_stars_c: newTotalStars,
+          current_level_c: newCurrentLevel
         });
 
         toast.success(`Great job! You earned ${stars} star${stars !== 1 ? 's' : ''}!`);
@@ -192,7 +192,7 @@ const GamePage = () => {
 
             <div>
               <h1 className="text-3xl font-display text-gray-800 mb-2">Level Complete!</h1>
-              <p className="text-lg text-gray-600">Awesome job on Level {level?.orderIndex}!</p>
+<p className="text-lg text-gray-600">Awesome job on Level {level?.order_index_c}!</p>
             </div>
 
             <div className="space-y-4">

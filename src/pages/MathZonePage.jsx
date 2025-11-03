@@ -33,16 +33,16 @@ const MathZonePage = () => {
       setChild(currentChild);
 
       // Load math levels
-      const mathLevels = await levelsService.getBySubject("math");
+const mathLevels = await levelsService.getBySubject("math");
       
       // Update lock status based on stars earned
       if (currentChild) {
         const activities = await activitiesService.getByChildId(currentChild.Id);
-        const totalStars = activities.reduce((sum, activity) => sum + activity.starsEarned, 0);
+        const totalStars = activities.reduce((sum, activity) => sum + activity.stars_earned_c, 0);
         
         const updatedLevels = mathLevels.map(level => ({
           ...level,
-          isLocked: totalStars < level.requiredStars
+          is_locked_c: totalStars < level.required_stars_c
         }));
         
         setLevels(updatedLevels);
@@ -65,11 +65,11 @@ const MathZonePage = () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadMathData} />;
 
-  const completedCount = completedLevels.filter(cl => 
-    levels.some(l => l.Id.toString() === cl.levelId)
+const completedCount = completedLevels.filter(cl => 
+    levels.some(l => l.Id.toString() === cl.level_id_c)
   ).length;
-
-  const totalStars = completedLevels.reduce((sum, cl) => sum + cl.starsEarned, 0);
+  
+  const totalStars = completedLevels.reduce((sum, cl) => sum + cl.stars_earned_c, 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-primary/5 p-4 lg:p-8">
@@ -186,7 +186,7 @@ const MathZonePage = () => {
           <Button 
             variant="accent"
             onClick={() => {
-              const nextLevel = levels.find(level => !level.isLocked && !completedLevels.find(cl => cl.levelId === level.Id.toString()));
+const nextLevel = levels.find(level => !level.is_locked_c && !completedLevels.find(cl => cl.level_id_c === level.Id.toString()));
               if (nextLevel) {
                 handleLevelClick(nextLevel);
               }

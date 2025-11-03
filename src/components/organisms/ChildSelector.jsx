@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useChild } from '@/contexts/ChildContext';
-import ApperIcon from '@/components/ApperIcon';
-import Avatar from '@/components/molecules/Avatar';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Card from "@/components/atoms/Card";
+import Avatar from "@/components/molecules/Avatar";
+import { useChild } from "@/contexts/ChildContext";
 
 const ChildSelector = ({ isOpen, onClose }) => {
   const { activeChild, allChildren, switchChild } = useChild();
@@ -47,44 +47,41 @@ const ChildSelector = ({ isOpen, onClose }) => {
           </div>
 
           <div className="space-y-3">
-            {allChildren.map((child) => (
+{allChildren.map((child) => (
               <motion.div
                 key={child.Id}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => handleChildSelect(child)}
+                className={`p-4 rounded-2xl border-2 cursor-pointer transition-all duration-200 ${
+                  activeChild?.Id === child.Id
+                    ? 'border-primary bg-primary/5'
+                    : 'border-gray-200 hover:border-primary/50'
+                }`}
               >
-                <Card
-                  className={`p-4 cursor-pointer transition-all border-2 ${
-                    activeChild?.Id === child.Id
-                      ? 'border-primary bg-primary/5'
-                      : 'border-gray-200 hover:border-primary/50'
-                  }`}
-                  onClick={() => handleChildSelect(child)}
-                >
-                  <div className="flex items-center space-x-4">
-                    <Avatar avatarId={child.avatarId} size="md" />
-                    <div className="flex-1">
-                      <h3 className="font-display text-lg text-gray-800">
-                        {child.name}
-                      </h3>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600">
-                        <span>Age {child.age}</span>
-                        <span>Level {child.currentLevel}</span>
-                        <div className="flex items-center space-x-1">
-                          <ApperIcon name="Star" size={14} className="text-accent" />
-                          <span>{child.totalStars}</span>
-                        </div>
+                <div className="flex items-center space-x-3">
+                  <Avatar avatarId={child.avatar_id_c} size="md" />
+                  <div className="flex-1">
+                    <h3 className="font-display text-lg text-gray-800">
+                      {child.name_c}
+                    </h3>
+                    <div className="flex items-center space-x-3 text-sm text-gray-600">
+                      <span>Age {child.age_c}</span>
+                      <span>Level {child.current_level_c}</span>
+                      <div className="flex items-center space-x-1">
+                        <ApperIcon name="Star" size={14} className="text-accent" />
+                        <span>{child.total_stars_c}</span>
                       </div>
                     </div>
-                    {activeChild?.Id === child.Id && (
-                      <ApperIcon 
-                        name="Check" 
-                        size={20} 
-                        className="text-primary"
-                      />
-                    )}
                   </div>
-                </Card>
+                  {activeChild?.Id === child.Id && (
+                    <ApperIcon 
+                      name="Check" 
+                      size={20} 
+                      className="text-primary"
+                    />
+                  )}
+                </div>
               </motion.div>
             ))}
           </div>

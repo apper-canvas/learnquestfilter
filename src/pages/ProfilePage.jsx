@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { useChild } from "@/contexts/ChildContext";
 import activitiesService from "@/services/api/activitiesService";
 import childrenService from "@/services/api/childrenService";
 import progressService from "@/services/api/progressService";
@@ -14,6 +13,7 @@ import Error from "@/components/ui/Error";
 import Avatar from "@/components/molecules/Avatar";
 import ProgressBar from "@/components/molecules/ProgressBar";
 import StarRating from "@/components/molecules/StarRating";
+import { useChild } from "@/contexts/ChildContext";
 const ProfilePage = () => {
 const { activeChild, refreshChildren } = useChild();
   const [activities, setActivities] = useState([]);
@@ -34,12 +34,12 @@ const loadProfileData = async () => {
       setLoading(true);
       setError("");
 
-      setSelectedAvatar(activeChild.avatarId || "1");
-      setNewName(activeChild.name || "");
-
+setSelectedAvatar(activeChild.avatar_id_c || "1");
+      setNewName(activeChild.name_c || "");
+      
       const childActivities = await activitiesService.getByChildId(activeChild.Id);
       setActivities(childActivities);
-
+      
       const childProgress = await progressService.getByChildId(activeChild.Id);
       setProgress(childProgress);
     } catch (err) {
@@ -54,7 +54,7 @@ const handleAvatarChange = async (avatarId) => {
     try {
       setSelectedAvatar(avatarId);
       if (activeChild) {
-        await childrenService.update(activeChild.Id, { avatarId });
+await childrenService.update(activeChild.Id, { avatar_id_c: avatarId });
         await refreshChildren();
         toast.success('Avatar updated successfully!');
       }
@@ -67,7 +67,7 @@ const handleAvatarChange = async (avatarId) => {
 const handleNameChange = async () => {
     try {
       if (activeChild && newName.trim()) {
-        await childrenService.update(activeChild.Id, { name: newName.trim() });
+await childrenService.update(activeChild.Id, { name_c: newName.trim() });
         await refreshChildren();
         setIsEditingName(false);
         toast.success('Name updated successfully!');
@@ -81,14 +81,14 @@ const handleNameChange = async () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadProfileData} />;
 
-  const totalStars = activities.reduce((sum, activity) => sum + activity.starsEarned, 0);
-  const perfectScores = activities.filter(activity => activity.starsEarned === 3).length;
-  const averageScore = activities.length > 0 
-    ? Math.round(activities.reduce((sum, activity) => sum + (activity.correctAnswers / activity.totalQuestions * 100), 0) / activities.length)
+const totalStars = activities.reduce((sum, activity) => sum + activity.stars_earned_c, 0);
+  const perfectScores = activities.filter(activity => activity.stars_earned_c === 3).length;
+  const averageAccuracy = activities.length > 0
+    ? Math.round(activities.reduce((sum, activity) => sum + (activity.correct_answers_c / activity.total_questions_c * 100), 0) / activities.length)
     : 0;
 
-  const mathProgress = progress.filter(p => p.subject === "math");
-  const readingProgress = progress.filter(p => p.subject === "reading");
+  const mathProgress = progress.filter(p => p.subject_c === "math");
+  const readingProgress = progress.filter(p => p.subject_c === "reading");
 
   const avatarOptions = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
@@ -122,18 +122,19 @@ const handleNameChange = async () => {
                   </Button>
                 </div>
 ) : (
-                <div className="flex items-center justify-center space-x-2">
-                  <h1 className="text-3xl font-display text-gray-800">{activeChild?.name}</h1>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => setIsEditingName(true)}
-                  >
-                    <ApperIcon name="Edit2" size={16} />
-                  </Button>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center space-x-2">
+                    <h1 className="text-3xl font-display text-gray-800">{activeChild?.name_c}</h1>
+                    <button
+                      onClick={() => setIsEditingName(true)}
+                      className="text-sm text-primary hover:underline font-medium"
+                    >
+                      <ApperIcon name="Edit" size={16} />
+                    </button>
+                  </div>
+                  <p className="text-gray-600">Age {activeChild?.age_c} • Level {activeChild?.current_level_c}</p>
                 </div>
               )}
-              <p className="text-gray-600">Age {activeChild?.age} • Level {activeChild?.currentLevel}</p>
             </div>
 
             <div className="flex items-center justify-center space-x-8">
@@ -206,7 +207,7 @@ const handleNameChange = async () => {
 
             <div className="space-y-3">
               {mathProgress.map((skill) => (
-                <div key={`${skill.subject}-${skill.skillArea}`}>
+<div key={`${skill.subject_c}-${skill.skill_area_c}`}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-gray-700 capitalize">
                       {skill.skillArea}
@@ -239,7 +240,7 @@ const handleNameChange = async () => {
             <div className="space-y-3">
               {readingProgress.map((skill) => (
                 <div key={`${skill.subject}-${skill.skillArea}`}>
-                  <div className="flex items-center justify-between mb-1">
+<div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium text-gray-700 capitalize">
                       {skill.skillArea}
                     </span>
@@ -292,18 +293,18 @@ const handleNameChange = async () => {
                     
                     <div>
                       <p className="font-medium text-gray-800">
-                        Level {activity.levelId}
+Level {activity.level_id_c}
                       </p>
                       <p className="text-sm text-gray-600">
-                        {activity.correctAnswers}/{activity.totalQuestions} correct • {Math.round(activity.timeSpent / 60)} min
+                        {activity.correct_answers_c}/{activity.total_questions_c} correct • {Math.round(activity.time_spent_c / 60)} min
                       </p>
                     </div>
                   </div>
                   
                   <div className="flex items-center space-x-3">
-                    <StarRating earned={activity.starsEarned} total={3} size={16} />
+                    <StarRating earned={activity.stars_earned_c} total={3} size={16} />
                     <span className="text-xs text-gray-500">
-                      {new Date(activity.completedAt).toLocaleDateString()}
+                      {new Date(activity.completed_at_c).toLocaleDateString()}
                     </span>
                   </div>
                 </motion.div>

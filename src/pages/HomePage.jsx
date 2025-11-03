@@ -30,9 +30,9 @@ const loadDashboardData = async () => {
       setLoading(true);
       setError("");
 
-      // Load recent activities for active child
+// Load recent activities for active child
       const activities = await activitiesService.getByChildId(activeChild.Id);
-      const sortedActivities = activities.sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+      const sortedActivities = activities.sort((a, b) => new Date(b.completed_at_c) - new Date(a.completed_at_c));
       setRecentActivities(sortedActivities.slice(0, 3));
 
       // Load progress for active child
@@ -57,9 +57,9 @@ const loadDashboardData = async () => {
   };
 
   const getDailyGoal = () => {
-    const completedToday = recentActivities.filter(activity => {
+const completedToday = recentActivities.filter(activity => {
       const today = new Date().toDateString();
-      const activityDate = new Date(activity.completedAt).toDateString();
+      const activityDate = new Date(activity.completed_at_c).toDateString();
       return today === activityDate;
     }).length;
 
@@ -83,10 +83,10 @@ const loadDashboardData = async () => {
         {/* Welcome Header */}
 <div className="text-center space-y-4">
           <div className="flex items-center justify-center space-x-4">
-            <Avatar avatarId={activeChild?.avatarId} size="xl" />
+            <Avatar avatarId={activeChild?.avatar_id_c} size="xl" />
             <div>
               <h1 className="text-3xl lg:text-4xl font-display text-gray-800">
-                {getGreeting()}, {activeChild?.name}!
+                {getGreeting()}, {activeChild?.name_c}!
               </h1>
               <p className="text-lg text-gray-600">{getRandomEncouragement()}</p>
             </div>
@@ -96,7 +96,7 @@ const loadDashboardData = async () => {
             <div>
               <div className="flex items-center justify-center space-x-1">
                 <ApperIcon name="Star" className="text-accent fill-accent" size={20} />
-                <span className="text-2xl font-display text-accent">{activeChild?.totalStars}</span>
+                <span className="text-2xl font-display text-accent">{activeChild?.total_stars_c}</span>
               </div>
               <p className="text-sm text-gray-600">Total Stars</p>
             </div>
@@ -104,7 +104,7 @@ const loadDashboardData = async () => {
             <div>
               <div className="flex items-center justify-center space-x-1">
                 <ApperIcon name="TrendingUp" className="text-success" size={20} />
-                <span className="text-2xl font-display text-success">Level {activeChild?.currentLevel}</span>
+                <span className="text-2xl font-display text-success">Level {activeChild?.current_level_c}</span>
               </div>
               <p className="text-sm text-gray-600">Current Level</p>
             </div>
@@ -199,7 +199,7 @@ const loadDashboardData = async () => {
             </div>
 
             <div className="space-y-4">
-              {recentActivities.map((activity, index) => (
+{recentActivities.map((activity, index) => (
                 <div key={activity.Id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                   <div className="flex items-center space-x-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -208,22 +208,22 @@ const loadDashboardData = async () => {
                       "bg-gradient-to-r from-accent to-warning"
                     }`}>
                       <ApperIcon 
-                        name={activity.levelId <= "5" ? "Calculator" : "BookOpen"} 
+                        name={activity.level_id_c <= "5" ? "Calculator" : "BookOpen"} 
                         size={18} 
                         className="text-white" 
                       />
                     </div>
                     <div>
                       <p className="font-medium text-gray-800">
-                        Level {activity.levelId} - {activity.correctAnswers}/{activity.totalQuestions} correct
+                        Level {activity.level_id_c} - {activity.correct_answers_c}/{activity.total_questions_c} correct
                       </p>
                       <p className="text-sm text-gray-600">
-                        {new Date(activity.completedAt).toLocaleDateString()}
+                        {new Date(activity.completed_at_c).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
                   
-                  <StarRating earned={activity.starsEarned} total={3} size={16} />
+                  <StarRating earned={activity.stars_earned_c} total={3} size={16} />
                 </div>
               ))}
             </div>
@@ -245,17 +245,17 @@ const loadDashboardData = async () => {
           </Card>
 
           <Card className="p-4 text-center">
-            <ApperIcon name="Clock" className="text-info mx-auto mb-2" size={24} />
+<ApperIcon name="Clock" className="text-info mx-auto mb-2" size={24} />
             <p className="text-2xl font-display text-gray-800">
-              {Math.round(recentActivities.reduce((sum, a) => sum + a.timeSpent, 0) / 60)}
+              {Math.round(recentActivities.reduce((sum, a) => sum + a.time_spent_c, 0) / 60)}
             </p>
             <p className="text-sm text-gray-600">Minutes Today</p>
           </Card>
 
           <Card className="p-4 text-center">
             <ApperIcon name="Award" className="text-success mx-auto mb-2" size={24} />
-            <p className="text-2xl font-display text-gray-800">
-              {progress.filter(p => p.masteryLevel >= 80).length}
+<p className="text-2xl font-display text-gray-800">
+              {progress.filter(p => p.mastery_level_c >= 80).length}
             </p>
             <p className="text-sm text-gray-600">Skills Mastered</p>
           </Card>

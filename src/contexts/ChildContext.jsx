@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import childrenService from '@/services/api/childrenService';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import childrenService from "@/services/api/childrenService";
+import Error from "@/components/ui/Error";
 
 const ChildContext = createContext();
 
@@ -33,12 +34,12 @@ export const ChildProvider = ({ children }) => {
     }
   };
 
-  const switchChild = (child) => {
-    setActiveChild(child);
-  };
-
   const refreshChildren = async () => {
     await loadChildren();
+  };
+
+  const switchChild = (child) => {
+    setActiveChild(child);
   };
 
   useEffect(() => {
@@ -46,13 +47,13 @@ export const ChildProvider = ({ children }) => {
   }, []);
 
   return (
-    <ChildContext.Provider 
+    <ChildContext.Provider
       value={{
         activeChild,
         allChildren,
         loading,
         switchChild,
-        refreshChildren
+        refreshChildren,
       }}
     >
       {children}

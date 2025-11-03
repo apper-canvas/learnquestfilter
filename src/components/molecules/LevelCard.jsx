@@ -1,10 +1,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import StarRating from "@/components/molecules/StarRating";
-import Button from "@/components/atoms/Button";
-import Badge from "@/components/atoms/Badge";
 
 const LevelCard = ({ 
   level, 
@@ -29,7 +29,7 @@ const LevelCard = ({
     }
   };
 
-  if (isLocked) {
+if (isLocked) {
     return (
       <Card className="p-4 bg-gray-100 border-gray-200">
         <div className="text-center space-y-3">
@@ -37,8 +37,8 @@ const LevelCard = ({
             <ApperIcon name="Lock" size={24} className="text-gray-500" />
           </div>
           <div>
-            <h3 className="font-display text-gray-500">Level {level.orderIndex}</h3>
-            <p className="text-sm text-gray-400 capitalize">{level.type}</p>
+            <h3 className="font-display text-gray-500">Level {level.order_index_c}</h3>
+            <p className="text-sm text-gray-400 capitalize">{level.type_c}</p>
           </div>
         </div>
       </Card>
@@ -47,20 +47,23 @@ const LevelCard = ({
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
+      className={`
+        relative cursor-pointer group transition-all duration-300 transform hover:scale-105 hover:shadow-xl
+        ${isCompleted ? 'animate-bounce-in' : ''}
+      `}
     >
-      <Card className="p-4 cursor-pointer hover:shadow-xl transition-all duration-200" onClick={onClick}>
+      <Card className="p-4">
         <div className="text-center space-y-3">
-          <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${getSubjectColor(level.subject)} rounded-full flex items-center justify-center shadow-lg`}>
-            <ApperIcon name={getSubjectIcon(level.subject)} size={28} className="text-white" />
+          <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${getSubjectColor(level.subject_c)} rounded-full flex items-center justify-center shadow-lg`}>
+            <ApperIcon name={getSubjectIcon(level.subject_c)} size={28} className="text-white" />
           </div>
           
-          <div>
-            <h3 className="font-display text-lg text-gray-800">Level {level.orderIndex}</h3>
-            <p className="text-sm text-gray-600 capitalize">{level.type}</p>
-            <Badge variant={level.difficulty === "easy" ? "success" : level.difficulty === "medium" ? "warning" : "error"} className="mt-1">
-              {level.difficulty}
+          <div className="mt-3 text-center">
+            <h3 className="font-display text-lg text-gray-800">Level {level.order_index_c}</h3>
+            <p className="text-sm text-gray-600 capitalize">{level.type_c}</p>
+            <Badge variant={level.difficulty_c === "easy" ? "success" : level.difficulty_c === "medium" ? "warning" : "error"} className="mt-1">
+              {level.difficulty_c}
             </Badge>
           </div>
 

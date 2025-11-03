@@ -17,7 +17,7 @@ const GameBoard = ({ levels, completedLevels, onLevelClick }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {levels.map((level, index) => {
-        const completedLevel = completedLevels.find(cl => cl.levelId === level.id);
+const completedLevel = completedLevels.find(cl => cl.level_id_c === level.Id.toString());
         const isCompleted = !!completedLevel;
         const isLocked = level.isLocked;
         

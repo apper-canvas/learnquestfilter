@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
@@ -14,7 +14,7 @@ const MathQuestion = ({ question, onAnswer }) => {
     setSelectedAnswer(answer);
     setShowFeedback(true);
 
-    const isCorrect = answer === question.correctAnswer;
+const isCorrect = answer === question.correct_answer_c;
     
     setTimeout(() => {
       onAnswer(isCorrect, answer);
@@ -23,14 +23,14 @@ const MathQuestion = ({ question, onAnswer }) => {
     }, 1500);
   };
 
-  const getAnswerButtonClass = (answer) => {
+const getAnswerButtonClass = (answer) => {
     if (!showFeedback) return "bg-white border-2 border-gray-200 text-gray-800 hover:border-primary hover:bg-primary/5";
     
-    if (answer === question.correctAnswer) {
+    if (answer === question.correct_answer_c) {
       return "bg-success border-success text-white";
     }
     
-    if (answer === selectedAnswer && answer !== question.correctAnswer) {
+    if (answer === selectedAnswer && answer !== question.correct_answer_c) {
       return "bg-error border-error text-white";
     }
     
@@ -41,14 +41,14 @@ const MathQuestion = ({ question, onAnswer }) => {
     <div className="max-w-2xl mx-auto space-y-8">
       {/* Question */}
       <Card className="p-8 text-center">
-        <h2 className="text-4xl font-display text-gray-800 mb-4">{question.question}</h2>
-        {question.image && (
-          <div className="w-32 h-32 mx-auto bg-gradient-to-br from-secondary/20 to-primary/20 rounded-2xl flex items-center justify-center mb-4">
-            <ApperIcon name={question.image} size={48} className="text-primary" />
+<h2 className="text-4xl font-display text-gray-800 mb-4">{question.question_c}</h2>
+{question.image_c && (
+          <div className="flex justify-center mb-4">
+            <ApperIcon name={question.image_c} size={48} className="text-primary" />
           </div>
         )}
-        {question.description && (
-          <p className="text-gray-600 text-lg">{question.description}</p>
+        {question.description_c && (
+          <p className="text-gray-600 text-lg mb-4">{question.description_c}</p>
         )}
       </Card>
 
@@ -75,15 +75,17 @@ const MathQuestion = ({ question, onAnswer }) => {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          {selectedAnswer === question.correctAnswer ? (
-            <div className="flex items-center justify-center space-x-2 text-success">
+{selectedAnswer === question.correct_answer_c ? (
+            <div className="text-center">
               <ApperIcon name="CheckCircle" size={32} />
-              <span className="text-2xl font-display">Great job!</span>
+              <p className="text-success font-bold text-xl mt-2">Correct!</p>
+              <p className="text-gray-600">Excellent work! You're awesome at math!</p>
             </div>
-          ) : (
-            <div className="flex items-center justify-center space-x-2 text-error">
+) : (
+            <div className="text-center">
               <ApperIcon name="XCircle" size={32} />
-              <span className="text-2xl font-display">Try again next time!</span>
+              <p className="text-error font-bold text-xl mt-2">Not quite right</p>
+              <p className="text-gray-600">The correct answer is {question.correct_answer_c}</p>
             </div>
           )}
         </motion.div>

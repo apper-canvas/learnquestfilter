@@ -1,36 +1,137 @@
-import questionsData from "@/services/mockData/questions.json";
-
 class QuestionsService {
   constructor() {
-    this.questions = [...questionsData];
+    this.apperClient = null;
+    this.initializeClient();
+  }
+
+  initializeClient() {
+    const { ApperClient } = window.ApperSDK;
+    this.apperClient = new ApperClient({
+      apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+      apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+    });
   }
 
   async getAll() {
-    await this.delay(300);
-    return [...this.questions];
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "question_c"}},
+          {"field": {"Name": "correct_answer_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "image_c"}},
+          {"field": {"Name": "level_id_c"}},
+          {"field": {"Name": "subject_c"}},
+          {"field": {"Name": "type_c"}}
+        ]
+      };
+      
+      const response = await this.apperClient.fetchRecords('question_c', params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching questions:", error?.response?.data?.message || error);
+      return [];
+    }
   }
 
   async getById(id) {
-    await this.delay(200);
-    const question = this.questions.find(q => q.Id === parseInt(id));
-    return question ? { ...question } : null;
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "question_c"}},
+          {"field": {"Name": "correct_answer_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "image_c"}},
+          {"field": {"Name": "level_id_c"}},
+          {"field": {"Name": "subject_c"}},
+          {"field": {"Name": "type_c"}}
+        ]
+      };
+      
+      const response = await this.apperClient.getRecordById('question_c', parseInt(id), params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        return null;
+      }
+      
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching question ${id}:`, error?.response?.data?.message || error);
+      return null;
+    }
   }
 
   async getByLevelId(levelId) {
-    await this.delay(250);
-    const levelQuestions = this.questions.filter(q => q.levelId === levelId.toString());
-    // Return randomized subset of questions for the level
-    const shuffled = [...levelQuestions].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, Math.min(10, shuffled.length)).map(q => ({ ...q }));
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "question_c"}},
+          {"field": {"Name": "correct_answer_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "image_c"}},
+          {"field": {"Name": "level_id_c"}},
+          {"field": {"Name": "subject_c"}},
+          {"field": {"Name": "type_c"}}
+        ],
+        where: [{"FieldName": "level_id_c", "Operator": "EqualTo", "Values": [levelId.toString()]}],
+        pagingInfo: {"limit": 50, "offset": 0}
+      };
+      
+      const response = await this.apperClient.fetchRecords('question_c', params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+      
+      // Return randomized subset of questions for the level
+      const questions = response.data || [];
+      const shuffled = [...questions].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, Math.min(10, shuffled.length));
+    } catch (error) {
+      console.error("Error fetching questions by level:", error?.response?.data?.message || error);
+      return [];
+    }
   }
 
   async getBySubject(subject) {
-    await this.delay(300);
-    return this.questions.filter(q => q.subject === subject).map(q => ({ ...q }));
-  }
-
-  delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    try {
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "question_c"}},
+          {"field": {"Name": "correct_answer_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "image_c"}},
+          {"field": {"Name": "level_id_c"}},
+          {"field": {"Name": "subject_c"}},
+          {"field": {"Name": "type_c"}}
+        ],
+        where: [{"FieldName": "subject_c", "Operator": "EqualTo", "Values": [subject]}]
+      };
+      
+      const response = await this.apperClient.fetchRecords('question_c', params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      console.error("Error fetching questions by subject:", error?.response?.data?.message || error);
+      return [];
+    }
   }
 }
 

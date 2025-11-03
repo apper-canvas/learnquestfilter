@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import activitiesService from "@/services/api/activitiesService";
+import childrenService from "@/services/api/childrenService";
+import progressService from "@/services/api/progressService";
 import ApperIcon from "@/components/ApperIcon";
-import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
-import StarRating from "@/components/molecules/StarRating";
-import Avatar from "@/components/molecules/Avatar";
+import Card from "@/components/atoms/Card";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
-import childrenService from "@/services/api/childrenService";
-import activitiesService from "@/services/api/activitiesService";
-import progressService from "@/services/api/progressService";
+import Avatar from "@/components/molecules/Avatar";
+import StarRating from "@/components/molecules/StarRating";
 
 const RewardsPage = () => {
   const [child, setChild] = useState(null);
@@ -33,14 +33,14 @@ const RewardsPage = () => {
       setChild(currentChild);
 
       if (currentChild) {
-        const childActivities = await activitiesService.getByChildId(currentChild.Id);
+const childActivities = await activitiesService.getByChildId(currentChild.Id);
         setActivities(childActivities);
-
+        
         const childProgress = await progressService.getByChildId(currentChild.Id);
         setProgress(childProgress);
-
-        // Calculate achievements based on activities and progress
-        calculateAchievements(childActivities, childProgress);
+      } else {
+        setActivities([]);
+        setProgress([]);
       }
     } catch (err) {
       setError("Failed to load rewards data. Please try again.");
@@ -51,11 +51,11 @@ const RewardsPage = () => {
   };
 
   const calculateAchievements = (activities, progressData) => {
-    const totalStars = activities.reduce((sum, activity) => sum + activity.starsEarned, 0);
-    const perfectScores = activities.filter(activity => activity.starsEarned === 3).length;
-    const mastery80Plus = progressData.filter(p => p.masteryLevel >= 80).length;
-    const mathActivities = activities.filter(a => parseInt(a.levelId) <= 5).length;
-    const readingActivities = activities.filter(a => parseInt(a.levelId) > 5).length;
+    const totalStars = activities.reduce((sum, activity) => sum + activity.stars_earned_c, 0);
+    const perfectScores = activities.filter(activity => activity.stars_earned_c === 3).length;
+    const mastery80Plus = progressData.filter(p => p.mastery_level_c >= 80).length;
+    const mathActivities = activities.filter(a => parseInt(a.level_id_c) <= 5).length;
+    const readingActivities = activities.filter(a => parseInt(a.level_id_c) > 5).length;
 
     const achievementsList = [
       {
@@ -138,198 +138,180 @@ const RewardsPage = () => {
   if (loading) return <Loading />;
   if (error) return <Error message={error} onRetry={loadRewardsData} />;
 
-  const totalStars = activities.reduce((sum, activity) => sum + activity.starsEarned, 0);
+const totalStars = activities.reduce((sum, activity) => sum + activity.stars_earned_c, 0);
   const unlockedAchievements = achievements.filter(a => a.unlocked);
   const recentActivities = activities.slice(-5).reverse();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-accent/10 p-4 lg:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div
+    className="min-h-screen bg-gradient-to-br from-background to-accent/10 p-4 lg:p-8">
+    <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center space-y-4">
-          <div className="w-24 h-24 mx-auto bg-gradient-to-br from-accent to-warning rounded-full flex items-center justify-center shadow-xl">
-            <ApperIcon name="Award" size={40} className="text-white" />
-          </div>
-          
-          <div>
-            <h1 className="text-4xl font-display text-gray-800 mb-2">Your Rewards</h1>
-            <p className="text-lg text-gray-600">Celebrate all your amazing achievements!</p>
-          </div>
+            <div
+                className="w-24 h-24 mx-auto bg-gradient-to-br from-accent to-warning rounded-full flex items-center justify-center shadow-xl">
+                <ApperIcon name="Award" size={40} className="text-white" />
+            </div>
+            <div>
+                <h1 className="text-4xl font-display text-gray-800 mb-2">Your Rewards</h1>
+                <p className="text-lg text-gray-600">Celebrate all your amazing achievements!</p>
+            </div>
         </div>
-
         {/* Stats Overview */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-6 text-center bg-gradient-to-br from-accent/10 to-accent/5">
-            <div className="flex items-center justify-center space-x-1 mb-2">
-              <ApperIcon name="Star" className="text-accent fill-accent" size={24} />
-              <span className="text-3xl font-display text-accent">{totalStars}</span>
-            </div>
-            <p className="text-gray-600 font-medium">Total Stars</p>
-          </Card>
-
-          <Card className="p-6 text-center bg-gradient-to-br from-success/10 to-success/5">
-            <div className="flex items-center justify-center space-x-1 mb-2">
-              <ApperIcon name="Trophy" className="text-success" size={24} />
-              <span className="text-3xl font-display text-success">{unlockedAchievements.length}</span>
-            </div>
-            <p className="text-gray-600 font-medium">Achievements</p>
-          </Card>
-
-          <Card className="p-6 text-center bg-gradient-to-br from-primary/10 to-primary/5">
-            <div className="flex items-center justify-center space-x-1 mb-2">
-              <ApperIcon name="Activity" className="text-primary" size={24} />
-              <span className="text-3xl font-display text-primary">{activities.length}</span>
-            </div>
-            <p className="text-gray-600 font-medium">Completed</p>
-          </Card>
-
-          <Card className="p-6 text-center bg-gradient-to-br from-info/10 to-info/5">
-            <div className="flex items-center justify-center space-x-1 mb-2">
-              <ApperIcon name="TrendingUp" className="text-info" size={24} />
-              <span className="text-3xl font-display text-info">
-                {Math.round(progress.reduce((sum, p) => sum + p.masteryLevel, 0) / Math.max(progress.length, 1))}%
-              </span>
-            </div>
-            <p className="text-gray-600 font-medium">Avg Mastery</p>
-          </Card>
+            <Card className="p-6 text-center bg-gradient-to-br from-accent/10 to-accent/5">
+                <div className="flex items-center justify-center space-x-1 mb-2">
+                    <ApperIcon name="Star" className="text-accent fill-accent" size={24} />
+                    <span className="text-3xl font-display text-accent">{totalStars}</span>
+                </div>
+                <p className="text-gray-600 font-medium">Total Stars</p>
+            </Card>
+            <Card
+                className="p-6 text-center bg-gradient-to-br from-success/10 to-success/5">
+                <div className="flex items-center justify-center space-x-1 mb-2">
+                    <ApperIcon name="Trophy" className="text-success" size={24} />
+                    <span className="text-3xl font-display text-success">{unlockedAchievements.length}</span>
+                </div>
+                <p className="text-gray-600 font-medium">Achievements</p>
+            </Card>
+            <Card
+                className="p-6 text-center bg-gradient-to-br from-primary/10 to-primary/5">
+                <div className="flex items-center justify-center space-x-1 mb-2">
+                    <ApperIcon name="Activity" className="text-primary" size={24} />
+                    <span className="text-3xl font-display text-primary">{activities.length}</span>
+                </div>
+                <p className="text-gray-600 font-medium">Completed</p>
+            </Card>
+            <Card className="p-6 text-center bg-gradient-to-br from-info/10 to-info/5">
+                <div className="flex items-center justify-center space-x-1 mb-2">
+                    <ApperIcon name="TrendingUp" className="text-info" size={24} />
+                    <span className="text-3xl font-display text-info">
+                        {Math.round(
+                            progress.reduce((sum, p) => sum + p.mastery_level_c, 0) / Math.max(progress.length, 1)
+                        )}%
+                                      </span>
+                </div>
+                <p className="text-gray-600 font-medium">Avg Mastery</p>
+            </Card>
         </div>
-
         {/* Achievement Showcase */}
         <Card className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-display text-gray-800">Achievement Gallery</h2>
-            <Badge variant="success">{unlockedAchievements.length}/{achievements.length} Unlocked</Badge>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {achievements.map((achievement, index) => (
-              <motion.div
-                key={achievement.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <Card className={`p-4 text-center ${
-                  achievement.unlocked 
-                    ? `bg-gradient-to-br from-${achievement.color}/10 to-${achievement.color}/5 border-${achievement.color}/20` 
-                    : "bg-gray-50 border-gray-200"
-                }`}>
-                  <div className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3 ${
-                    achievement.unlocked
-                      ? `bg-gradient-to-br from-${achievement.color} to-${achievement.color} shadow-lg`
-                      : "bg-gray-300"
-                  }`}>
-                    <ApperIcon 
-                      name={achievement.unlocked ? achievement.icon : "Lock"} 
-                      size={24} 
-                      className={achievement.unlocked ? "text-white" : "text-gray-500"} 
-                    />
-                  </div>
-                  
-                  <h3 className={`font-display text-lg mb-1 ${
-                    achievement.unlocked ? "text-gray-800" : "text-gray-500"
-                  }`}>
-                    {achievement.title}
-                  </h3>
-                  
-                  <p className={`text-sm mb-3 ${
-                    achievement.unlocked ? "text-gray-600" : "text-gray-400"
-                  }`}>
-                    {achievement.unlocked ? achievement.description : achievement.requirement}
-                  </p>
-
-                  {achievement.unlocked && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.5, type: "spring" }}
-                    >
-                      <Badge variant={achievement.color} className="text-xs">
-                        Unlocked!
-                      </Badge>
-                    </motion.div>
-                  )}
-                </Card>
-              </motion.div>
-            ))}
-          </div>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-display text-gray-800">Achievement Gallery</h2>
+                <Badge variant="success">{unlockedAchievements.length}/{achievements.length}Unlocked</Badge>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {achievements.map((achievement, index) => <motion.div
+                    key={achievement.id}
+                    initial={{
+                        opacity: 0,
+                        y: 20
+                    }}
+                    animate={{
+                        opacity: 1,
+                        y: 0
+                    }}
+                    transition={{
+                        delay: index * 0.1
+                    }}>
+                    <Card
+                        className={`p-4 text-center ${achievement.unlocked ? `bg-gradient-to-br from-${achievement.color}/10 to-${achievement.color}/5 border-${achievement.color}/20` : "bg-gray-50 border-gray-200"}`}>
+                        <div
+                            className={`w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3 ${achievement.unlocked ? `bg-gradient-to-br from-${achievement.color} to-${achievement.color} shadow-lg` : "bg-gray-300"}`}>
+                            <ApperIcon
+                                name={achievement.unlocked ? achievement.icon : "Lock"}
+                                size={24}
+                                className={achievement.unlocked ? "text-white" : "text-gray-500"} />
+                        </div>
+                        <h3
+                            className={`font-display text-lg mb-1 ${achievement.unlocked ? "text-gray-800" : "text-gray-500"}`}>
+                            {achievement.title}
+                        </h3>
+                        <p
+                            className={`text-sm mb-3 ${achievement.unlocked ? "text-gray-600" : "text-gray-400"}`}>
+                            {achievement.unlocked ? achievement.description : achievement.requirement}
+                        </p>
+                        {achievement.unlocked && <motion.div
+                            initial={{
+                                scale: 0
+                            }}
+                            animate={{
+                                scale: 1
+                            }}
+                            transition={{
+                                delay: 0.5,
+                                type: "spring"
+                            }}>
+                            <Badge variant={achievement.color} className="text-xs">Unlocked!
+                                                      </Badge>
+                        </motion.div>}
+                    </Card>
+                </motion.div>)}
+            </div>
         </Card>
-
         {/* Recent Activities */}
         <Card className="p-6">
-          <h2 className="text-2xl font-display text-gray-800 mb-6">Recent Star Wins</h2>
-          
-          <div className="space-y-4">
-            {recentActivities.map((activity, index) => (
-              <motion.div
-                key={activity.Id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100"
-              >
-                <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                    parseInt(activity.levelId) <= 5 
-                      ? "bg-gradient-to-br from-primary to-secondary" 
-                      : "bg-gradient-to-br from-secondary to-info"
-                  }`}>
-                    <ApperIcon 
-                      name={parseInt(activity.levelId) <= 5 ? "Calculator" : "BookOpen"} 
-                      size={20} 
-                      className="text-white" 
-                    />
-                  </div>
-                  
-                  <div>
-                    <p className="font-medium text-gray-800">
-                      Level {activity.levelId} - {activity.correctAnswers}/{activity.totalQuestions} correct
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {new Date(activity.completedAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-3">
-                  <StarRating earned={activity.starsEarned} total={3} size={16} />
-                  <Badge 
-                    variant={activity.starsEarned === 3 ? "success" : activity.starsEarned === 2 ? "warning" : "primary"}
-                  >
-                    +{activity.starsEarned}
-                  </Badge>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </Card>
-
-        {/* Motivational Section */}
-        <Card className="p-6 text-center bg-gradient-to-br from-success/10 to-success/5 border-success/20">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Avatar avatarId={child?.avatarId} size="lg" />
-            <ApperIcon name="Sparkles" className="text-accent" size={32} />
-          </div>
-          
-          <h3 className="text-2xl font-display text-gray-800 mb-2">
-            You're Amazing, {child?.name}!
-          </h3>
-          
-          <p className="text-gray-600 mb-4">
-            Look at all the progress you've made! Keep learning and you'll unlock even more rewards.
-          </p>
-          
-          {unlockedAchievements.length < achievements.length && (
-            <div className="bg-white rounded-xl p-4 inline-block">
-              <p className="text-sm text-gray-600 mb-2">Next achievement to unlock:</p>
-              <p className="font-display text-primary">
-                {achievements.find(a => !a.unlocked)?.title}
-              </p>
+            <h2 className="text-2xl font-display text-gray-800 mb-6">Recent Star Wins</h2>
+            <div className="space-y-4">
+                {recentActivities.map((activity, index) => <motion.div
+                    key={activity.Id}
+                    initial={{
+                        opacity: 0,
+                        x: -20
+                    }}
+                    animate={{
+                        opacity: 1,
+                        x: 0
+                    }}
+                    transition={{
+                        delay: index * 0.1
+                    }}
+                    className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100">
+                    <div className="flex items-center space-x-4">
+                        <div
+                            className={`w-12 h-12 rounded-xl flex items-center justify-center ${parseInt(activity.level_id_c) <= 5 ? "bg-gradient-to-r from-primary to-secondary" : "bg-gradient-to-r from-secondary to-info"} rounded-xl shadow-lg`}>
+                            <ApperIcon
+                                name={parseInt(activity.level_id_c) <= 5 ? "Calculator" : "BookOpen"}
+                                size={20}
+                                className="text-white" />
+                            <div className="text-left">
+                                <p className="font-medium text-white">Level {activity.level_id_c}- {activity.correct_answers_c}/{activity.total_questions_c}correct
+                                                        </p>
+                                <p className="text-xs text-white/80">
+                                    {new Date(activity.completed_at_c).toLocaleDateString()}
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                            <StarRating earned={activity.stars_earned_c} total={3} size={16} />
+                            <Badge
+                                variant={activity.stars_earned_c === 3 ? "success" : activity.stars_earned_c === 2 ? "warning" : "primary"}>+{activity.starsEarned}
+                            </Badge>
+                        </div>
+                    </div></motion.div>)}
             </div>
-          )}
         </Card>
-      </div>
+        {/* Motivational Section */}
+        <Card
+            className="p-6 text-center bg-gradient-to-br from-success/10 to-success/5 border-success/20">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+                <Avatar avatarId={child?.avatar_id_c} size="lg" />
+                <div className="text-center">
+                    <p className="text-gray-600 mb-2">Keep up the amazing work!</p>
+                    <h3 className="text-2xl font-display text-gray-800 mb-1">You're doing great!
+                                    You're Amazing, {child?.name_c}!
+                                  </h3>
+                    <p className="text-gray-600 mb-4">Look at all the progress you've made! Keep learning and you'll unlock even more rewards.
+                                  </p>
+                    {unlockedAchievements.length < achievements.length && <div className="bg-white rounded-xl p-4 inline-block">
+                        <p className="text-sm text-gray-600 mb-2">Next achievement to unlock:</p>
+                        <p className="font-display text-primary">
+                            {achievements.find(a => !a.unlocked)?.title}
+                        </p>
+                    </div>}
+                </div></div></Card>
     </div>
+</div>
   );
 };
 
